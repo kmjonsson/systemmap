@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:systemmap="http://systemmap.fot.nu/namespaces/systemmap"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="plain.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.660419"
+     inkscape:cx="150.21838"
+     inkscape:cy="524.66691"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1250"
+     inkscape:window-height="884"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="box"
+       width="195.33054"
+       height="122.64941"
+       x="75.709511"
+       y="99.936554"
+       systemmap:update="temp:fill:randomColor"
+       inkscape:label="#box_label">
+      <desc
+         id="desc4152">Box Desc</desc>
+      <title
+         id="title4150">The Box</title>
+    </rect>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30.12917709px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;image-rendering:auto"
+       x="178.7713"
+       y="166.37263"
+       id="temp"
+       sodipodi:linespacing="125%"
+       inkscape:label="#temp:temp"
+       transform="scale(0.98987066,1.010233)"><desc
+         id="desc4148">Temp Description</desc><title
+         id="title4146">Lite Temporart</title><tspan
+         sodipodi:role="line"
+	 systemmap:update="temp:text:value"
+         x="178.7713"
+         y="166.37263"
+         id="tspan4142">N/A</tspan></text>
+
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30.12917709px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;image-rendering:auto"
+       x="148.7713"
+       y="206.37263"
+       id="temp2"
+       sodipodi:linespacing="125%"
+       inkscape:label="#temp:temp"
+       transform="scale(0.98987066,1.010233)"><desc
+         id="desc24148">Temp Description</desc><title
+         id="title24146">Annan Temp</title><tspan
+         sodipodi:role="line"
+	 systemmap:xupdate="fill:color;text:temp"
+	 systemmap:yupdate="fill:color"
+	 systemmap:update="temp:text:value"
+         x="148.7713"
+         y="206.37263"
+         id="tspan24142">X/A</tspan></text>
+
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30.12917709px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;image-rendering:auto"
+       x="208.7713"
+       y="126.37263"
+       id="temp3"
+       sodipodi:linespacing="125%"
+       inkscape:label="#temp:temp"
+       transform="scale(0.98987066,1.010233)"><desc
+         id="desc34148">Temp Description</desc><title
+         id="title34146">Temp:en</title><tspan
+         sodipodi:role="line"
+	 systemmap:update="temp:text:value;temp:fill:randomColor"
+         x="208.7713"
+         y="126.37263"
+         id="tspan34142">N/A</tspan></text>
+  </g>
+</svg>
