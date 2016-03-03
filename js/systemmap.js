@@ -101,7 +101,7 @@ function systemmap_loadDone(svg, error) {
         // Every 30 sec.
         systemmap.timer = $.timer(30*1000,function() {
                 $.each(systemmap.meta, function(id,meta) { 
-			$.each(meta.send,function(send) {
+			$.each(meta.send,function(i,send) {
 				systemmap.socket.send(send);
 			});
 		});
