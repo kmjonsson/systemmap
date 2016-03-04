@@ -5,7 +5,21 @@ var systemmap = {
 	'meta': {},
 	'uri': null,
 	'ws': null,
+	'helpers': {},
 };
+
+function systemmap_add_helper(name,fn) {
+        if(systemmap.helpers[name] !== undefined) {
+                error("helper: " + name + " already exists");
+                return;
+        }
+        systemmap.helpers[name] = fn;
+}
+
+// Add default helper
+systemmap_add_helper('value', function(value) {
+                return value;
+});
 
 function systemmap_init(uri,ws) {
 	systemmap.uri = uri;
@@ -28,7 +42,7 @@ function systemmap_initElement(elm) {
 		var key  = update[0];
 		var dest = update[1];
 		var func = update[2];
-		if(systemmap_helpers[func] === undefined) {
+		if(systemmap.helpers[func] === undefined) {
 			debug("helper function: " + func + " is undefined :-(");
 			return;
 		}
@@ -86,7 +100,7 @@ function systemmap_loadDone(svg, error) {
 		}
 		$.each(meta.action,function(i,action) {
 			if(action.key !== data.key) { return; }
-                        var value = systemmap_helpers[action.func](data.value);
+                        var value = systemmap.helpers[action.func](data.value);
 			if(value === undefined) { return; }
 			if(action.dest === 'text') {
 				$(data.id, systemmap.svg.root()).text(value);
@@ -108,6 +122,9 @@ function systemmap_loadDone(svg, error) {
         });
 }
 
-function debug(data) {
+function error(data) {
         alert(JSON.stringify(data));
+}
+function debug(data) {
+        //alert(JSON.stringify(data));
 }
