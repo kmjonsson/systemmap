@@ -27,3 +27,8 @@ systemmap_add_helper('colorRange',function(value,min,max) {
 	color += letters[Math.floor(h%16)];
 	return color;
 });
+
+systemmap_add_helper('timeNow',function(value) {
+	var d = new Date();
+	return d.toISOString().split("T",2)[1].split(".")[0];
+});

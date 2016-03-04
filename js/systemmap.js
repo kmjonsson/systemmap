@@ -10,7 +10,7 @@ var systemmap = {
 
 function systemmap_add_helper(name,fn) {
         if(systemmap.helpers[name] !== undefined) {
-                error("helper: " + name + " already exists");
+                show_error("helper: " + name + " already exists");
                 return;
         }
         systemmap.helpers[name] = fn;
@@ -44,7 +44,7 @@ function systemmap_initElement(elm) {
 		var func = update[2];
 		var args = update.splice(3);
 		if(systemmap.helpers[func] === undefined) {
-			error("helper function: " + func + " is undefined :-(");
+			show_error("helper function: " + func + " is undefined :-(");
 			return;
 		}
 		if(sending[key] === undefined) {
@@ -76,7 +76,7 @@ function systemmap_loadDone(svg, error) {
         systemmap.socket = new WebSocket(systemmap.ws);
 
         systemmap.socket.onclose = function() {
-                error("Lost connection :-(");
+                show_error("Lost connection :-(");
         }
 
         // Init
@@ -97,7 +97,7 @@ function systemmap_loadDone(svg, error) {
                 var data = JSON.parse(msg.data);
                 var meta = systemmap.meta[data.id];
 		if(meta === undefined) {
-			error("Unknown id in message: " + data.id);
+			show_error("Unknown id in message: " + data.id);
 			return;
 		}
 		$.each(meta.action,function(i,action) {
@@ -126,7 +126,7 @@ function systemmap_loadDone(svg, error) {
         });
 }
 
-function error(data) {
+function show_error(data) {
         alert(JSON.stringify(data));
 }
 function debug(data) {
