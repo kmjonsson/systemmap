@@ -6,3 +6,6 @@ systemmap_add_helper('randomColor',function(value) {
 	}
 	return color;
 });
+systemmap_add_helper('degC',function(value) {
+	return value + "°C";
+});

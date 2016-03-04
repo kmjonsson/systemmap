@@ -79,7 +79,7 @@
          id="desc4148">Temp Description</desc><title
          id="title4146">Lite Temporart</title><tspan
          sodipodi:role="line"
-         systemmap:update="temp:text:value"
+         systemmap:update="temp:text:degC"
          x="178.7713"
          y="166.37263"
          id="tspan4142">N/A</tspan></text>
@@ -95,9 +95,7 @@
          id="desc24148">Temp Description</desc><title
          id="title24146">Annan Temp</title><tspan
          sodipodi:role="line"
-         systemmap:xupdate="fill:color;text:temp"
-         systemmap:yupdate="fill:color"
-         systemmap:update="temp:text:value"
+         systemmap:update="temp:text:degC"
          x="148.7713"
          y="206.37263"
          id="tspan24142">X/A</tspan></text>
@@ -113,7 +111,7 @@
          id="desc34148">Temp Description</desc><title
          id="title34146">Temp:en</title><tspan
          sodipodi:role="line"
-         systemmap:update="temp:text:value;temp:fill:randomColor"
+         systemmap:update="temp:text:degC;temp:fill:randomColor"
          x="208.7713"
          y="126.37263"
          id="tspan34142">N/A</tspan></text>
