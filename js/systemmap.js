@@ -44,7 +44,7 @@ function systemmap_initElement(elm) {
 		var func = update[2];
 		var args = update.splice(3);
 		if(systemmap.helpers[func] === undefined) {
-			debug("helper function: " + func + " is undefined :-(");
+			error("helper function: " + func + " is undefined :-(");
 			return;
 		}
 		if(sending[key] === undefined) {
@@ -76,7 +76,7 @@ function systemmap_loadDone(svg, error) {
         systemmap.socket = new WebSocket(systemmap.ws);
 
         systemmap.socket.onclose = function() {
-                debug("Lost connection :-(");
+                error("Lost connection :-(");
         }
 
         // Init
@@ -97,7 +97,7 @@ function systemmap_loadDone(svg, error) {
                 var data = JSON.parse(msg.data);
                 var meta = systemmap.meta[data.id];
 		if(meta === undefined) {
-			debug("Unknown id in message: " + data.id);
+			error("Unknown id in message: " + data.id);
 			return;
 		}
 		$.each(meta.action,function(i,action) {
