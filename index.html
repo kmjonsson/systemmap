@@ -3,21 +3,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>System map</title>
-<link rel="stylesheet" href="svgjs/jquery.svg.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="svgjs/jquery.svg.js"></script>
-<script src="svgjs/jquery.svgdom.js"></script>
+<script src="js/snap.svg-min.js"></script>
 <script src="js/jquery.timer.js"></script>
 <script src="js/json2.js"></script>
-<script src="js/systemmap.js"></script>
+<script src="js/systemmap2.js"></script>
 <script src="helpers.js"></script>
 <script>
 	$(function() {
 		systemmap_init('map.svg','wss://fot.nu:1880/ws/svg');
+		/*
+		var svg = Snap('#svg');
+		var g = svg.group();
+		var tux = Snap.load("map.svg", function ( loadedFragment ) { 
+			g.append( loadedFragment ); 
+			Snap.selectAll("tspan[systemmap:update]").forEach(function(el) {
+				debug(el.attr("id"));
+				debug(el.attr("systemmap:update"));
+			});
+		});
+		*/
 	}); 
 </script>
 </head>
 <body>
-<div id="svg"></div>
+<svg id="svg" style="width:1000px;height:800px"></svg>
 </body>
 </html>

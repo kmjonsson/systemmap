@@ -24,17 +24,17 @@ systemmap_add_helper('value', function(value) {
 function systemmap_init(uri,ws) {
 	systemmap.uri = uri;
 	systemmap.ws  = ws;
-        $('#svg').svg({onLoad: systemmap_load});
-}
 
-function systemmap_load(svg) {
-        // Load svg file.
-        svg.load(systemmap.uri, {changeSize: false, onLoad: systemmap_loadDone}); 
+	systemmap.svg = Snap('#svg');
+	Snap.load(systemmap.uri, function ( loadedFragment ) { 
+			systemmap.svg.group().append( loadedFragment ); 
+			systemmap_loadDone();
+	});
 }
 
 function systemmap_initElement(elm) {
-        var id = "#" + $(elm).attr("id");
-        var updates = $(elm).attr("systemmap:update").split(";");
+        var id = "#" + elm.attr("id");
+        var updates = elm.attr("systemmap:update").split(";");
 	var sending = {};
 	var action = [];
 	$.each(updates,function(i,input) {
@@ -71,8 +71,7 @@ function systemmap_initElement(elm) {
 }
 
 /* Callback after loading done */ 
-function systemmap_loadDone(svg, error) { 
-        systemmap.svg = svg;
+function systemmap_loadDone() { 
         systemmap.socket = new WebSocket(systemmap.ws);
 
         systemmap.socket.onclose = function() {
@@ -82,12 +81,9 @@ function systemmap_loadDone(svg, error) {
         // Init
         systemmap.socket.onopen = function(){
 		$.each(['text','tspan','rect'],function(i,tag) {
-			$(tag, systemmap.svg.root())
-			.filter(function() { 
-				return $(this).attr('systemmap:update'); 
-			})
-			.each(function() { 
-				systemmap_initElement(this); 
+			Snap.selectAll(tag).forEach(function(el) {
+				if(el.attr('systemmap:update') == null) { return; }
+				systemmap_initElement(el); 
 			});
 		});
         };
@@ -104,14 +100,12 @@ function systemmap_loadDone(svg, error) {
 			if(action.key !== data.key) { return; }
 			var args = [data.value].concat(action.args);
                         var value = systemmap.helpers[action.func]
-				.apply($(data.id, systemmap.svg.root()),args);
+				.apply(Snap.select(data.id),args);
 			if(value === undefined) { return; }
 			if(action.dest === 'text') {
-				$(data.id, systemmap.svg.root()).text(value);
+				$(Snap.select(data.id).node).text(value);
 			} else {
-				$(data.id, systemmap.svg.root()).each(function() {
-					this.style[action.dest] = value;
-				});
+				$(Snap.select(data.id).node).css(action.dest,value);
 			}
 		});
         };
