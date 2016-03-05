@@ -7,22 +7,11 @@
 <script src="js/snap.svg-min.js"></script>
 <script src="js/jquery.timer.js"></script>
 <script src="js/json2.js"></script>
-<script src="js/systemmap2.js"></script>
+<script src="js/systemmap.js"></script>
 <script src="helpers.js"></script>
 <script>
 	$(function() {
 		systemmap_init('map.svg','wss://fot.nu:1880/ws/svg');
-		/*
-		var svg = Snap('#svg');
-		var g = svg.group();
-		var tux = Snap.load("map.svg", function ( loadedFragment ) { 
-			g.append( loadedFragment ); 
-			Snap.selectAll("tspan[systemmap:update]").forEach(function(el) {
-				debug(el.attr("id"));
-				debug(el.attr("systemmap:update"));
-			});
-		});
-		*/
 	}); 
 </script>
 </head>
