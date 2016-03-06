@@ -11,7 +11,12 @@
 <script src="helpers.js"></script>
 <script>
 	$(function() {
-		systemmap_init('map.svg','wss://fot.nu:1880/ws/svg');
+		var maps=window.location.href;
+		var re = /\/([a-z0-9\-]+)\.map$/i;
+		var result = re.exec(maps);
+		var map="default";
+		if(result[1] !== undefined) { map = result[1]; }
+		systemmap_init("svg/" + map + ".svg",'wss://i.fot.nu:1880/ws/svg');
 	}); 
 </script>
 </head>

@@ -72,7 +72,12 @@ function systemmap_initElement(elm) {
 
 /* Callback after loading done */ 
 function systemmap_loadDone() { 
-        systemmap.socket = new WebSocket(systemmap.ws);
+	if ("WebSocket" in window) {
+		systemmap.socket = new WebSocket(systemmap.ws);
+	}
+	else if ("MozWebSocket" in window) {
+		systemmap.socket = new MozWebSocket(systemmap.ws);
+	}
 
         systemmap.socket.onclose = function() {
                 show_error("Lost connection :-(");

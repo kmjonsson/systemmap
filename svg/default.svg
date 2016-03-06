@@ -60,12 +60,12 @@
        height="122.64941"
        x="75.709511"
        y="99.936554"
-       systemmap:update="temp:fill:randomColor"
+       systemmap:update="Abisko/t-cn0110.hpc2n.umu.se/load_one:fill:colorRange:0:48"
        inkscape:label="#box_label">
       <desc
          id="desc4152">Box Desc</desc>
       <title
-         id="title4150">The Box</title>
+         id="title4150">Load of t-cn0110 from blue to red</title>
     </rect>
     <text
        xml:space="preserve"
@@ -76,10 +76,11 @@
        sodipodi:linespacing="125%"
        inkscape:label="#temp:temp"
        transform="scale(0.98987066,1.010233)"><desc
-         id="desc4148">Temp Description</desc><title
-         id="title4146">Lite Temporart</title><tspan
+         id="desc4148">load_one of t-cn0101</desc><title
+         id="title4146">load_one of t-cn0101</title><tspan
          sodipodi:role="line"
-         systemmap:update="temp:text:degC"
+         systemmap:xupdate="temp:text:degC"
+         systemmap:update="Abisko/t-cn0101.hpc2n.umu.se/load_one:text:value"
          x="178.7713"
          y="166.37263"
          id="tspan4142">N/A</tspan></text>
@@ -92,10 +93,11 @@
        sodipodi:linespacing="125%"
        inkscape:label="#temp:temp"
        transform="scale(0.98987066,1.010233)"><desc
-         id="desc24148">Temp Description</desc><title
-         id="title24146">Annan Temp</title><tspan
+         id="desc24148">load_one of t-cn0110</desc><title
+         id="title24146">load_one of t-cn0110</title><tspan
          sodipodi:role="line"
-         systemmap:update="temp:text:degC"
+         systemmap:xupdate="temp:text:degC"
+         systemmap:update="Abisko/t-cn0110.hpc2n.umu.se/load_one:text:value"
          x="148.7713"
          y="206.37263"
          id="tspan24142">X/A</tspan></text>
@@ -108,12 +110,28 @@
        sodipodi:linespacing="125%"
        inkscape:label="#temp:temp"
        transform="scale(0.98987066,1.010233)"><desc
-         id="desc34148">Temp Description</desc><title
-         id="title34146">Temp:en</title><tspan
+         id="desc34148">hpc2n-alpha-front-lower</desc><title
+         id="title34146">hpc2n-alpha-front-lower</title><tspan
          sodipodi:role="line"
-         systemmap:update="temp:text:degC;temp:fill:colorRange:15:25"
+         systemmap:update="mattith/hpc2n-alpha-front-lower:text:degC"
          x="208.7713"
          y="126.37263"
          id="tspan34142">N/A</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:30.12917709px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;image-rendering:auto"
+       x="150"
+       y="50"
+       id="temp4"
+       sodipodi:linespacing="125%"
+       inkscape:label="#temp:temp"
+       transform="scale(0.98987066,1.010233)"><desc
+         id="desc44148">LastUpdated</desc><title
+         id="title44146">LastUpdated</title><tspan
+         sodipodi:role="line"
+         systemmap:update="Abisko/t-cn0136.hpc2n.umu.se/load_one:text:timeNow"
+         x="150"
+         y="50"
+         id="tspan44142">N/A</tspan></text>
   </g>
 </svg>
