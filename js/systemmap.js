@@ -85,11 +85,10 @@ function systemmap_loadDone() {
 
         // Init
         systemmap.socket.onopen = function(){
-		$.each(['text','tspan','rect'],function(i,tag) {
-			Snap.selectAll(tag).forEach(function(el) {
-				if(el.attr('systemmap:update') == null) { return; }
+		systemmap.svg.selectAll('*').forEach(function(el) {
+			if(el.attr('systemmap:update') != null) { 
 				systemmap_initElement(el); 
-			});
+			}
 		});
         };
 
@@ -105,12 +104,12 @@ function systemmap_loadDone() {
 			if(action.key !== data.key) { return; }
 			var args = [data.value].concat(action.args);
                         var value = systemmap.helpers[action.func]
-				.apply(Snap.select(data.id),args);
+				.apply(systemmap.svg.select(data.id),args);
 			if(value === undefined) { return; }
 			if(action.dest === 'text') {
-				$(Snap.select(data.id).node).text(value);
+				$(systemmap.svg.select(data.id).node).text(value);
 			} else {
-				$(Snap.select(data.id).node).css(action.dest,value);
+				$(systemmap.svg.select(data.id).node).css(action.dest,value);
 			}
 		});
         };
