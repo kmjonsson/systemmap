@@ -15,12 +15,12 @@
 		var re = /\/([a-z0-9\-]+)\.map$/i;
 		var result = re.exec(maps);
 		var map="default";
-		if(result[1] !== undefined) { map = result[1]; }
-		systemmap_init("svg/" + map + ".svg",'wss://i.fot.nu:1880/ws/svg');
+		if(result != null && result[1] !== undefined) { map = result[1]; }
+		var sm = new SystemMap("#svg","svg/" + map + ".svg",'wss://i.fot.nu:1880/ws/svg');
 	}); 
 </script>
 </head>
 <body>
-<svg id="svg" style="width:1000px;height:800px"></svg>
+<svg id="svg" style="width:1000px;height:400px"></svg>
 </body>
 </html>

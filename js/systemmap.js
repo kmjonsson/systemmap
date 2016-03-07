@@ -1,58 +1,55 @@
-var systemmap = {
-	'svg': null,
-	'socket': null,
-	'timer': null,
-	'meta': {},
-	'uri': null,
-	'ws': null,
-	'helpers': {},
-};
 
-function systemmap_add_helper(name,fn) {
-        if(systemmap.helpers[name] !== undefined) {
-                show_error("helper: " + name + " already exists");
-                return;
-        }
-        systemmap.helpers[name] = fn;
-}
+function SystemMap(id, uri, ws) {
+	this.ws  = ws;
 
-// Add default helper
-systemmap_add_helper('value', function(value) {
-                return value;
-});
-
-function systemmap_init(uri,ws) {
-	systemmap.uri = uri;
-	systemmap.ws  = ws;
-
-	systemmap.svg = Snap('#svg');
-	Snap.load(systemmap.uri, function ( loadedFragment ) { 
-			systemmap.svg.group().append( loadedFragment ); 
-			systemmap_loadDone();
+	this.svg = Snap(id);
+	var sm = this;
+	Snap.load(uri, function ( loadedFragment ) { 
+			sm.svg.group().append( loadedFragment ); 
+			sm.loadDone();
 	});
 }
 
-function systemmap_initElement(elm) {
+// Default members
+SystemMap.prototype.ws      = null;
+SystemMap.prototype.svg     = null;
+SystemMap.prototype.meta    = {};
+SystemMap.prototype.timer   = null;
+SystemMap.prototype.socket  = null;
+SystemMap.prototype.sending = {};
+SystemMap.prototype.helpers = {
+	// Default function
+	'value':  function(data) { return data.value; },
+	'meta':   function(data) { return data.meta; },
+};
+
+// Adds helpers to the prototype (can't be added to object after constructor)
+SystemMap.addHelper = function(name,fn) {
+        if(SystemMap.prototype.helpers[name] !== undefined) {
+                show_error("helper: " + name + " already defined");
+                return;
+        }
+        SystemMap.prototype.helpers[name] = fn;
+}
+
+SystemMap.prototype.initElement = function(elm) {
+	var sm = this;
         var id = "#" + elm.attr("id");
         var updates = elm.attr("systemmap:update").split(";");
 	var sending = {};
 	var action = [];
-	$.each(updates,function(i,input) {
-		var update = input.split(":");
-		var key  = update[0];
-		var dest = update[1];
-		var func = update[2];
-		var args = update.splice(3);
-		if(systemmap.helpers[func] === undefined) {
+	$.each(updates,function(i,update) {
+		var kdfa = update.split(":");
+		var key  = kdfa[0];
+		var dest = kdfa[1];
+		var func = kdfa[2];
+		var args = kdfa.splice(3);
+		if(sm.helpers[func] === undefined) {
 			show_error("helper function: " + func + " is undefined :-(");
 			return;
 		}
-		if(sending[key] === undefined) {
-			sending[key] = JSON.stringify({
-				"id"    : id,
-				"key"   : key,
-			});
-		}
+		if(sm.sending[key] === undefined) { sm.sending[key] = []; } 
+		sm.sending[key].push(id);
 		action.push({
 			"key" : key,
 			"dest" : dest,
@@ -60,67 +57,63 @@ function systemmap_initElement(elm) {
 			"args" : args,
 		});
 	});
-        systemmap.meta[id] = {
-                        "id"   : id,
-                        "send" : $.map(sending,function(value,key) { return value }),
-                        "action" : action,
-                };
-	$.each(systemmap.meta[id].send,function(i,send) {
-		systemmap.socket.send(send);
-	});
+        sm.meta[id] = { "id"   : id, "action" : action, };
 }
 
 /* Callback after loading done */ 
-function systemmap_loadDone() { 
+SystemMap.prototype.loadDone = function() { 
+	var sm = this;
 	if ("WebSocket" in window) {
-		systemmap.socket = new WebSocket(systemmap.ws);
+		this.socket = new WebSocket(this.ws);
 	}
 	else if ("MozWebSocket" in window) {
-		systemmap.socket = new MozWebSocket(systemmap.ws);
+		this.socket = new MozWebSocket(this.ws);
 	}
 
-        systemmap.socket.onclose = function() {
+        this.socket.onclose = function() {
                 show_error("Lost connection :-(");
         }
 
         // Init
-        systemmap.socket.onopen = function(){
-		systemmap.svg.selectAll('*').forEach(function(el) {
+        this.socket.onopen = function(){
+		sm.svg.selectAll('*').forEach(function(el) {
 			if(el.attr('systemmap:update') != null) { 
-				systemmap_initElement(el); 
+				sm.initElement(el); 
 			}
 		});
+		sm.socket.send(JSON.stringify($.grep(Object.keys(sm.sending), function(e) { return e != '' })));
         };
 
         // Receiving messages
-        systemmap.socket.onmessage = function(msg) {
-                var data = JSON.parse(msg.data);
-                var meta = systemmap.meta[data.id];
-		if(meta === undefined) {
-			show_error("Unknown id in message: " + data.id);
-			return;
-		}
-		$.each(meta.action,function(i,action) {
-			if(action.key !== data.key) { return; }
-			var args = [data.value].concat(action.args);
-                        var value = systemmap.helpers[action.func]
-				.apply(systemmap.svg.select(data.id),args);
-			if(value === undefined) { return; }
-			if(action.dest === 'text') {
-				$(systemmap.svg.select(data.id).node).text(value);
-			} else {
-				$(systemmap.svg.select(data.id).node).css(action.dest,value);
-			}
+        this.socket.onmessage = function(msg) {
+                var list = JSON.parse(msg.data);
+		list.push({ "key":"", "value":"", "meta":""});
+		$.each(list,function(i,data) {
+			$.each(sm.sending[data.key],function(i,id) {
+				var meta = sm.meta[id];
+				if(meta === undefined) {
+					show_error("Unknown id in message: " + id);
+					return;
+				}
+				$.each(meta.action,function(i,action) {
+					if(action.key !== data.key) { return; }
+					var args = [$.extend({}, data)].concat(action.args);
+					var value = sm.helpers[action.func]
+						.apply(sm.svg.select(id),args);
+					if(value === undefined) { return; }
+					if(action.dest === 'text') {
+						$(sm.svg.select(id).node).text(value);
+					} else {
+						$(sm.svg.select(id).node).css(action.dest,value);
+					}
+				});
+			});
 		});
         };
 
         // Every 30 sec.
-        systemmap.timer = $.timer(30*1000,function() {
-                $.each(systemmap.meta, function(id,meta) { 
-			$.each(meta.send,function(i,send) {
-				systemmap.socket.send(send);
-			});
-		});
+        this.timer = $.timer(30*1000,function() {
+		sm.socket.send(JSON.stringify($.grep(Object.keys(sm.sending), function(e) { return e != '' })));
         });
 }
 

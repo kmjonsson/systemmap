@@ -1,4 +1,4 @@
-systemmap_add_helper('randomColor',function(value) {
+SystemMap.addHelper('randomColor',function(data) {
 	var letters = '0123456789ABCDEF'.split('');
 	var color = '#';
 	for (var i = 0; i < 6; i++ ) {
@@ -6,19 +6,19 @@ systemmap_add_helper('randomColor',function(value) {
 	}
 	return color;
 });
-systemmap_add_helper('degC',function(value) {
-	return value + "°C";
+SystemMap.addHelper('degC',function(data) {
+	return data.value + "°C";
 });
-systemmap_add_helper('colorRange',function(value,min,max) {
+SystemMap.addHelper('colorRange',function(data,min,max) {
 	var letters = '0123456789ABCDEF'.split('');
 	var color = '#';
-	if(value-min < 0) {
-		value = min;
+	if(data.value-min < 0) {
+		data.value = min;
 	}
-	if(value-max > 0) {
+	if(data.value-max > 0) {
 		value = max;
 	}
-	h = Math.floor(255*((value-min)/(max-min)))
+	h = Math.floor(255*((data.value-min)/(max-min)))
 	color += letters[Math.floor(h/16)];
 	color += letters[Math.floor(h%16)];
 	color += "00";
@@ -28,7 +28,7 @@ systemmap_add_helper('colorRange',function(value,min,max) {
 	return color;
 });
 
-systemmap_add_helper('timeNow',function(value) {
+SystemMap.addHelper('timeNow',function(data) {
 	var d = new Date();
 	return d.toISOString().split("T",2)[1].split(".")[0];
 });
