@@ -30,5 +30,5 @@ SystemMap.addHelper('colorRange',function(data,min,max) {
 
 SystemMap.addHelper('timeNow',function(data) {
 	var d = new Date();
-	return d.toISOString().split("T",2)[1].split(".")[0];
+	return d.toLocaleTimeString();
 });
