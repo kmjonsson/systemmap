@@ -37,25 +37,22 @@ SystemMap.prototype.initElement = function(elm) {
         var id = "#" + elm.attr("id");
         var updates = elm.attr("systemmap:update").split(";");
 	var sending = {};
-	var action = [];
+	var action  = [];
 	$.each(updates,function(i,update) {
 		var kdfa = update.split(":");
-		var key  = kdfa[0];
-		var dest = kdfa[1];
-		var func = kdfa[2];
-		var args = kdfa.splice(3);
-		if(sm.helpers[func] === undefined) {
-			show_error("helper function: " + func + " is undefined :-(");
+		var a = {
+			"key"  : kdfa[0], 
+			"dest" : kdfa[1], 
+			"func" : kdfa[2], 
+			"args" : kdfa.splice(3)
+		};
+		if(sm.helpers[a.func] === undefined) {
+			show_error("helper function: " + a.func + " is undefined :-(");
 			return;
 		}
-		if(sm.sending[key] === undefined) { sm.sending[key] = []; } 
-		sm.sending[key].push(id);
-		action.push({
-			"key" : key,
-			"dest" : dest,
-			"func" : func,
-			"args" : args,
-		});
+		if(sm.sending[a.key] === undefined) { sm.sending[a.key] = []; } 
+		sm.sending[a.key].push(id);
+		action.push(a);
 	});
         sm.meta[id] = { "id"   : id, "action" : action, };
 }
@@ -88,13 +85,16 @@ SystemMap.prototype.loadDone = function() {
         this.socket.onmessage = function(msg) {
                 var list = JSON.parse(msg.data);
 		list.push({ "key":"", "value":"", "meta":""});
+		// For each key in list
 		$.each(list,function(i,data) {
+			// For each #id with need for key
 			$.each(sm.sending[data.key],function(i,id) {
 				var meta = sm.meta[id];
 				if(meta === undefined) {
 					show_error("Unknown id in message: " + id);
 					return;
 				}
+				// For each action
 				$.each(meta.action,function(i,action) {
 					if(action.key !== data.key) { return; }
 					var args = [$.extend({}, data)].concat(action.args);
