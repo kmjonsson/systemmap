@@ -17,7 +17,19 @@ function SystemMap(cfg) {
 	this.svg = Snap(cfg.id);
 	var sm = this;
 	Snap.load(cfg.uri, function ( loadedFragment ) { 
-			sm.svg.group().append( loadedFragment ); 
+			var svgElement = loadedFragment.select("svg");
+			if(svgElement.attr('viewBox') === undefined) {
+				if(svgElement.attr('width') !== undefined &&
+				   svgElement.attr('height') !== undefined) {
+					svgElement.attr('viewBox',"0 0 " + 
+						parseFloat(svgElement.attr('width')) + " " + 
+						parseFloat(svgElement.attr('height')));
+				}
+			}
+			svgElement.attr('width','100%');
+			svgElement.attr('height','100%');
+			svgElement.attr('preserveAspectRatio',"xMaxYMax");
+			sm.svg.append( loadedFragment ); 
 			sm.loadDone();
 	});
 	return this;

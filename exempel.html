@@ -12,11 +12,7 @@
 <script>
 	var count = 0;
 	$(function() {
-		var maps=window.location.href;
-		var re = /\/([a-z0-9\-]+)\.map$/i;
-		var result = re.exec(maps);
-		var map="default";
-		if(result != null && result[1] !== undefined) { map = result[1]; }
+		var map = 'exempel';
 		var sm = new SystemMap({ 
 			"interval"  : 300,
 			"id"  : "#svg",
@@ -30,6 +26,6 @@
 </head>
 <body>
 <div id="status">Unknown</div>
-<svg id="svg" style="width:500px;height:500px"></svg>
+<svg id="svg" width="800px" height="400px"  preserveAspectRatio="xMaxYMax meet"></svg>
 </body>
 </html>
