@@ -1,21 +1,36 @@
 
-function SystemMap(id, uri, ws) {
-	this.ws  = ws;
-
-	this.svg = Snap(id);
+function SystemMap(cfg) {
+	// Check for required cfg's
+	if(cfg.ws === undefined) { return null; }
+	if(cfg.id === undefined) { return null; }
+	if(cfg.uri === undefined) { return null; }
+	// set defaults
+	if(cfg.autoconnect !== undefined) { cfg.autoconnect = true; }
+	if(cfg.interval === undefined) { cfg.interval = 300; } // 300s
+	if(cfg.onopen === undefined) { 
+                cfg.onopen = function() { show_error("Connected :-)"); }
+	}
+	if(cfg.onclose === undefined) { 
+                cfg.onclose = function() { show_error("Lost connection :-("); }
+	}
+	this.cfg = cfg;
+	this.svg = Snap(cfg.id);
 	var sm = this;
-	Snap.load(uri, function ( loadedFragment ) { 
+	Snap.load(cfg.uri, function ( loadedFragment ) { 
 			sm.svg.group().append( loadedFragment ); 
 			sm.loadDone();
 	});
+	return this;
 }
 
 // Default members
-SystemMap.prototype.ws      = null;
+SystemMap.prototype.cfg     = null;
 SystemMap.prototype.svg     = null;
 SystemMap.prototype.meta    = {};
 SystemMap.prototype.timer   = null;
 SystemMap.prototype.socket  = null;
+SystemMap.prototype.onopen  = null;
+SystemMap.prototype.onclose = null;
 SystemMap.prototype.sending = {};
 SystemMap.prototype.helpers = {
 	// Default function
@@ -57,27 +72,34 @@ SystemMap.prototype.initElement = function(elm) {
         sm.meta[id] = { "id"   : id, "action" : action, };
 }
 
-/* Callback after loading done */ 
-SystemMap.prototype.loadDone = function() { 
+SystemMap.prototype.connect = function() {
 	var sm = this;
 	if ("WebSocket" in window) {
-		this.socket = new WebSocket(this.ws);
+		this.socket = new WebSocket(this.cfg.ws);
 	}
 	else if ("MozWebSocket" in window) {
-		this.socket = new MozWebSocket(this.ws);
+		this.socket = new MozWebSocket(this.cfg.ws);
 	}
 
         this.socket.onclose = function() {
-                show_error("Lost connection :-(");
+		// Call callback function
+		sm.cfg.onclose.apply(sm);
+		// Set socket null to define socket not open.
+		sm.socket = null;
         }
 
         // Init
         this.socket.onopen = function(){
-		sm.svg.selectAll('*').forEach(function(el) {
-			if(el.attr('systemmap:update') != null) { 
-				sm.initElement(el); 
-			}
-		});
+		// Call callback function
+		sm.cfg.onopen.apply(sm);
+		// Do init if not done before
+		if(Object.keys(sm.sending).length == 0) {
+			sm.svg.selectAll('*').forEach(function(el) {
+				if(el.attr('systemmap:update') != null) { 
+					sm.initElement(el); 
+				}
+			});
+		}
 		sm.socket.send(JSON.stringify($.grep(Object.keys(sm.sending), function(e) { return e != '' })));
         };
 
@@ -110,10 +132,22 @@ SystemMap.prototype.loadDone = function() {
 			});
 		});
         };
+}
+
+/* Callback after loading done */ 
+SystemMap.prototype.loadDone = function() { 
+	var sm = this;
+	
+	// Initial connect.
+	sm.connect();
 
         // Every 30 sec.
-        this.timer = $.timer(30*1000,function() {
-		sm.socket.send(JSON.stringify($.grep(Object.keys(sm.sending), function(e) { return e != '' })));
+        this.timer = $.timer(sm.cfg.interval*1000,function() {
+		if(sm.socket == null) {
+			sm.connect();
+		} else {
+			sm.socket.send(JSON.stringify($.grep(Object.keys(sm.sending), function(e) { return e != '' })));
+		}
         });
 }
 

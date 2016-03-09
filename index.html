@@ -16,11 +16,19 @@
 		var result = re.exec(maps);
 		var map="default";
 		if(result != null && result[1] !== undefined) { map = result[1]; }
-		var sm = new SystemMap("#svg","svg/" + map + ".svg",'wss://i.fot.nu:1880/ws/svg');
+		var sm = new SystemMap({ 
+			"interval"  : 30,
+			"id"  : "#svg",
+			"uri" : "svg/" + map + ".svg",
+			"ws"  : 'wss://i.fot.nu:1880/ws/svg',
+			"onopen" : function() { $("#status").text("Connected").css("color","green"); },
+			"onclose" : function() { $("#status").text("Disconnected").css("color","red"); },
+		});
 	}); 
 </script>
 </head>
 <body>
+<div id="status">Unknown</div>
 <svg id="svg" style="width:1000px;height:400px"></svg>
 </body>
 </html>
