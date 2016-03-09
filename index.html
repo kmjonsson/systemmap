@@ -10,6 +10,7 @@
 <script src="js/systemmap.js"></script>
 <script src="helpers.js"></script>
 <script>
+	var count = 0;
 	$(function() {
 		var maps=window.location.href;
 		var re = /\/([a-z0-9\-]+)\.map$/i;
@@ -17,11 +18,11 @@
 		var map="default";
 		if(result != null && result[1] !== undefined) { map = result[1]; }
 		var sm = new SystemMap({ 
-			"interval"  : 30,
+			"interval"  : 300,
 			"id"  : "#svg",
 			"uri" : "svg/" + map + ".svg",
 			"ws"  : 'wss://i.fot.nu:1880/ws/svg',
-			"onopen" : function() { $("#status").text("Connected").css("color","green"); },
+			"onopen" : function() { $("#status").text("Connected (" + ++count + ")").css("color","green"); },
 			"onclose" : function() { $("#status").text("Disconnected").css("color","red"); },
 		});
 	}); 
